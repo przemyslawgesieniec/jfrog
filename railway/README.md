@@ -106,12 +106,9 @@ sam i będzie je aktualizował, gdy baza się zmieni.
 
 **Settings → Networking → Public Networking → Generate Domain**
 
-| Pole | Wartość |
-|---|---|
-| Target Port | **8082** |
-
-Artifactory **nie czyta `$PORT`** — słucha na 8082 na sztywno, dlatego port
-trzeba wskazać ręcznie.
+Repozytoryjny `railway/artifactory.Dockerfile` wystawia publicznie `$PORT`
+Railwaya i przekierowuje ruch do wewnętrznego routera JFroga na 8082. Jeśli UI
+pyta o target port, wybierz **8080**.
 
 ### 3d. Healthcheck
 

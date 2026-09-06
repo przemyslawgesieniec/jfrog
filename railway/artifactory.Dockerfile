@@ -10,6 +10,20 @@
 # ostrzeżenia. 7.161.20 to wersja zweryfikowana lokalnie z PostgreSQL.
 FROM releases-docker.jfrog.io/jfrog/artifactory-oss:7.161.20
 
-# Port platformy JFrog (UI + REST API). W ustawieniach serwisu na Railwayu
-# ustaw Target Port na 8082 - Artifactory nie czyta $PORT.
+USER root
+
+# Railway's HTTP edge reliably targets $PORT/8080 for CLI-uploaded services.
+# Keep Artifactory on its normal router port and expose a tiny TCP forwarder.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends socat \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY railway/artifactory-entrypoint.sh /usr/local/bin/artifactory-entrypoint.sh
+RUN chmod +x /usr/local/bin/artifactory-entrypoint.sh
+
+# Railway routes public HTTP to $PORT/8080; the wrapper forwards that traffic
+# to the normal JFrog router port 8082.
+EXPOSE 8080
 EXPOSE 8082
+
+ENTRYPOINT ["/usr/local/bin/artifactory-entrypoint.sh"]
