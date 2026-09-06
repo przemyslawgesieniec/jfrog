@@ -137,6 +137,10 @@ Czego **nie** powinieneś zobaczyć:
 
 Gdy wstanie, otwórz `https://<twoja-domena>.up.railway.app/ui/`.
 
+Dockerfile wyłącza też `jfconnect` w `system.yaml`. W Artifactory OSS potrafi on
+zablokować frontend na splash screenie z błędem:
+`First-time entitlement fetch failed: 12 UNIMPLEMENTED: Received HTTP status code 404`.
+
 ---
 
 ## 4. ZMIEŃ HASŁO ADMINA
@@ -278,7 +282,7 @@ więc **self-hosted runner przestaje być potrzebny** i pipeline wraca na
 - [ ] serwis `Postgres` dodany
 - [ ] `artifactory`: `RAILWAY_DOCKERFILE_PATH`, `RAILWAY_RUN_UID=0`, pięć `JF_SHARED_DATABASE_*`, `JF_SHARED_EXTRAJAVAOPTS`
 - [ ] `artifactory`: wolumen na `/var/opt/jfrog/artifactory`
-- [ ] `artifactory`: domena + **Target Port 8082**, healthcheck pusty
+- [ ] `artifactory`: domena + **Target Port 8080**, healthcheck pusty
 - [ ] w logach `Artifactory successfully started`
 - [ ] **hasło admina zmienione w UI**
 - [ ] `bootstrap.sh` przeciw zdalnemu adresowi utworzył `generic-local`
